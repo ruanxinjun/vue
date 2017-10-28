@@ -42,6 +42,11 @@
                 {{k}}   {{v}}   {{$index}}  {{$key}}
             </li>
         </ul>
+        <ul>
+            <li v-for="item of json">
+               {{$key}},{{item}}-{{$index}}
+            </li>
+        </ul>
     </div>
 </body>
 </html>

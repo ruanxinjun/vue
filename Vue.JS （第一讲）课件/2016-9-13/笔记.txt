@@ -1,38 +1,38 @@
 vue:
-	读音:	v-u-e
+	露脕脪么:	v-u-e
 	view
 
-	vue到底是什么?
-		一个mvvm框架(库)、和angular类似
-		比较容易上手、小巧
+	vue碌陆碌脳脢脟脢虏脙麓?
+		脪禄赂枚mvvm驴貌录脺(驴芒)隆垄潞脥angular脌脿脣脝
+		卤脠陆脧脠脻脪脳脡脧脢脰隆垄脨隆脟脡
 	mvc:
 		mvp
 		mvvm
 		mv*
 		mvx
-	官网:http://cn.vuejs.org/	
-	手册： http://cn.vuejs.org/api/
+	鹿脵脥酶:http://cn.vuejs.org/	
+	脢脰虏谩拢潞 http://cn.vuejs.org/api/
 
-vue和angular区别?
-	vue——简单、易学
-		指令以 v-xxx
-		一片html代码配合上json，在new出来vue实例
-		个人维护项目
+vue潞脥angular脟酶卤冒?
+	vue隆陋隆陋录貌碌楼隆垄脪脳脩搂
+		脰赂脕卯脪脭 v-xxx
+		脪禄脝卢html麓煤脗毛脜盲潞脧脡脧json拢卢脭脷new鲁枚脌麓vue脢碌脌媒
+		赂枚脠脣脦卢禄陇脧卯脛驴
 
-		适合: 移动端项目,小巧
+		脢脢潞脧: 脪脝露炉露脣脧卯脛驴,脨隆脟脡
 
-		vue的发展势头很猛，github上start数量已经超越angular
-	angular——上手难
-		指令以 ng-xxx
-		所有属性和方法都挂到$scope身上
-		angular由google维护
+		vue碌脛路垄脮鹿脢脝脥路潞脺脙脥拢卢github脡脧start脢媒脕驴脪脩戮颅鲁卢脭陆angular
+	angular隆陋隆陋脡脧脢脰脛脩
+		脰赂脕卯脪脭 ng-xxx
+		脣霉脫脨脢么脨脭潞脥路陆路篓露录鹿脪碌陆$scope脡铆脡脧
+		angular脫脡google脦卢禄陇
 		
-		合适: pc端项目
+		潞脧脢脢: pc露脣脧卯脛驴
 
-	共同点: 不兼容低版本IE
+	鹿虏脥卢碌茫: 虏禄录忙脠脻碌脥掳忙卤戮IE
 -------------------------------------------
-vue基本雏形:
-	angular展示一条基本数据:
+vue禄霉卤戮鲁没脨脦:
+	angular脮鹿脢戮脪禄脤玫禄霉卤戮脢媒戮脻:
 		var app=angular.module('app',[]);
 
 		app.controller('xxx',function($scope){	//C
@@ -49,12 +49,12 @@ vue基本雏形:
 			</div>
 
 			var c=new Vue({
-				el:'#box',	//选择器  class tagName
+				el:'#box',	//脩隆脭帽脝梅  class tagName
 				data:{
 				    msg:'welcome vue'
 				}
 			});
-常用指令:
+鲁拢脫脙脰赂脕卯:
 	angular: 
 		 ng-model   ng-controller
 		 ng-repeat
@@ -62,11 +62,11 @@ vue基本雏形:
 		 ng-show  
 
 		$scope.show=function(){}
-	指令: 扩展html标签功能,属性
+	脰赂脕卯: 脌漏脮鹿html卤锚脟漏鹿娄脛脺,脢么脨脭
 
-	v-model	一般表单元素(input)	双向数据绑定
+	v-model	脪禄掳茫卤铆碌楼脭陋脣脴(input)	脣芦脧貌脢媒戮脻掳贸露篓
 
-	循环:
+	脩颅禄路:
 		v-for="name in arr"
 			{{$index}}
 
@@ -74,79 +74,79 @@ vue基本雏形:
 			{{$index}}	{{$key}}
 	
 		v-for="(k,v) in json"
-	事件:
-		v-on:click="函数"
+	脢脗录镁:
+		v-on:click="潞炉脢媒"
 
 		v-on:click/mouseout/mouseover/dblclick/mousedown.....
 
 		new Vue({
 			el:'#box',
-			data:{ //数据
+			data:{ //脢媒戮脻
 			    arr:['apple','banana','orange','pear'],
 			    json:{a:'apple',b:'banana',c:'orange'}
 			},
 			methods:{
-			    show:function(){	//方法
+			    show:function(){	//路陆路篓
 			        alert(1);
 			    }
 			}
 		});
-	显示隐藏:
-		v-show=“true/false”
-bootstrap+vue简易留言板(todolist):
+	脧脭脢戮脪镁虏脴:
+		v-show=隆掳true/false隆卤
+bootstrap+vue录貌脪脳脕么脩脭掳氓(todolist):
 	
-	bootstrap: css框架	跟jqueryMobile一样
-		只需要给标签 赋予class，角色
-		依赖jquery
+	bootstrap: css驴貌录脺	赂煤jqueryMobile脪禄脩霉
+		脰禄脨猫脪陋赂酶卤锚脟漏 赂鲁脫猫class拢卢陆脟脡芦
+		脪脌脌碌jquery
 
-	确认删除？和确认删除全部么?
+	脠路脠脧脡戮鲁媒拢驴潞脥脠路脠脧脡戮鲁媒脠芦虏驴脙麓?
 -----------------------------------------
-事件:
+脢脗录镁:
 	v-on:click/mouseover......
 	
-	简写的:
-	@click=""		推荐
+	录貌脨麓碌脛:
+	@click=""		脥脝录枚
 
-	事件对象:
+	脢脗录镁露脭脧贸:
 		@click="show($event)"
-	事件冒泡:
-		阻止冒泡:  
+	脢脗录镁脙掳脜脻:
+		脳猫脰鹿脙掳脜脻:  
 			a). ev.cancelBubble=true;
-			b). @click.stop	推荐
-	默认行为(默认事件):
-		阻止默认行为:
+			b). @click.stop	脥脝录枚
+	脛卢脠脧脨脨脦陋(脛卢脠脧脢脗录镁):
+		脳猫脰鹿脛卢脠脧脨脨脦陋:
 			a). ev.preventDefault();
-			b). @contextmenu.prevent	推荐
-	键盘:
+			b). @contextmenu.prevent	脥脝录枚
+	录眉脜脤:
 		@keydown	$event	ev.keyCode
 		@keyup
 
-		常用键:
-			回车
+		鲁拢脫脙录眉:
+			禄脴鲁碌
 				a). @keyup.13
 				b). @keyup.enter
-			上、下、左、右
+			脡脧隆垄脧脗隆垄脳贸隆垄脫脪
 				@keyup/keydown.left
 				@keyup/keydown.right
 				@keyup/keydown.up
 				@keyup/keydown.down
 			.....
 -----------------------------------------
-属性:
+脢么脨脭:
 	v-bind:src=""
 		width/height/title....
 	
-	简写:
-	:src=""	推荐
+	录貌脨麓:
+	:src=""	脥脝录枚
 
-	<img src="{{url}}" alt="">	效果能出来，但是会报一个404错误
-	<img v-bind:src="url" alt="">	效果可以出来，不会发404请求
+	<img src="{{url}}" alt="">	脨搂鹿没脛脺鲁枚脌麓拢卢碌芦脢脟禄谩卤篓脪禄赂枚404麓铆脦贸
+	<img v-bind:src="url" alt="">	脨搂鹿没驴脡脪脭鲁枚脌麓拢卢虏禄禄谩路垄404脟毛脟贸
 -----------------------------------------
-class和style:
+class潞脥style:
 	:class=""	v-bind:class=""
 	:style=""	v-bind:style=""
 
-	:class="[red]"	red是数据
+	:class="[red]"	red脢脟脢媒戮脻
 	:class="[red,b,c,d]"
 	
 	:class="{red:a, blue:false}"
@@ -160,17 +160,17 @@ class和style:
 	style:
 	:style="[c]"
 	:style="[c,d]"
-		注意:  复合样式，采用驼峰命名法
+		脳垄脪芒:  赂麓潞脧脩霉脢陆拢卢虏脡脫脙脥脮路氓脙眉脙没路篓
 	:style="json"
 -----------------------------------------
-模板:
-	{{msg}}		数据更新模板变化
-	{{*msg}}	数据只绑定一次
+脛拢掳氓:
+	{{msg}}		脢媒戮脻赂眉脨脗脛拢掳氓卤盲禄炉
+	{{*msg}}	脢媒戮脻脰禄掳贸露篓脪禄麓脦
 	
-	{{{msg}}}	HTML转意输出
+	{{{msg}}}	HTML脳陋脪芒脢盲鲁枚
 -----------------------------------------
-过滤器:-> 过滤模板数据
-	系统提供一些过滤器:
+鹿媒脗脣脝梅:-> 鹿媒脗脣脛拢掳氓脢媒戮脻
+	脧碌脥鲁脤谩鹿漏脪禄脨漏鹿媒脗脣脝梅:
 	
 	{{msg| filterA}}
 	{{msg| filterA | filterB}}
@@ -179,27 +179,27 @@ class和style:
 	lowercase
 	capitalize
 
-	currency	钱
+	currency	脟庐
 
-	{{msg| filterA 参数}}
+	{{msg| filterA 虏脦脢媒}}
 
 	....
 -----------------------------------------
-交互:
-	$http	（ajax）
+陆禄禄楼:
+	$http	拢篓ajax拢漏
 
-	如果vue想做交互
+	脠莽鹿没vue脧毛脳枚陆禄禄楼
 
-	引入: vue-resouce
+	脪媒脠毛: vue-resouce
 
 	get:
-		获取一个普通文本数据:
+		禄帽脠隆脪禄赂枚脝脮脥篓脦脛卤戮脢媒戮脻:
 		this.$http.get('aa.txt').then(function(res){
 		    alert(res.data);
 		},function(res){
 		    alert(res.status);
 		});
-		给服务发送数据:√
+		赂酶路镁脦帽路垄脣脥脢媒戮脻:隆脤
 		this.$http.get('get.php',{
 		    a:1,
 		    b:2
@@ -227,7 +227,7 @@ class和style:
 		this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
 		    wd:'a'
 		},{
-		    jsonp:'cb'	//callback名字，默认名字就是"callback"
+		    jsonp:'cb'	//callback脙没脳脰拢卢脛卢脠脧脙没脳脰戮脥脢脟"callback"
 		}).then(function(res){
 		    alert(res.data.s);
 		},function(res){
@@ -236,9 +236,9 @@ class和style:
 		
 https://www.baidu.com/s?wd=s
 
-	作业:
-		1. 简易留言-> 确认删除? 确认删除全部
-		2. 用vue get 写个例子	weibo
+	脳梅脪碌:
+		1. 录貌脪脳脕么脩脭-> 脠路脠脧脡戮鲁媒? 脠路脠脧脡戮鲁媒脠芦虏驴
+		2. 脫脙vue get 脨麓赂枚脌媒脳脫	weibo
 
 
 	

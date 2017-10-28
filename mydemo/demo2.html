@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="lib/vue.min.js"></script>	
+<script src="lib/vue-resource.js"></script>	
+<style>
+	.green{background:green;height: 25px;border:1px solid blue;margin:5px;color:white;}
+</style>
+</head>
+<body>
+<div class="box">
+	<input v-model="wd"><br/>
+	<input type="button" @click="get" value="获取百度列表" />
+	<ul>
+		<li v-for="(value,index) in list" :title="index" :class="{green:index==ix}" v-on:click="set(index)">
+			{{value}}--{{index}}
+		</li>
+	</ul>
+</div>
+
+<script>
+	var app = new Vue({
+		el:'div',
+		data:{
+				wd:'',
+				list:[],
+				ix:-1
+		},
+		methods:{
+			get:function(){
+				this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
+					{wd:this.wd},
+					{jsonp:'cb'}).then(function(res){
+					this.list = res.data.s;
+					},function(e){alert(e);})
+				},
+			set:function(_index){
+				this.ix = _index;
+			}	
+		}
+		
+	});
+</script>
+</body>
+</html>

@@ -23,7 +23,7 @@
 </head>
 <body>
     <div id="box">
-        <input type="button" value="按钮" v-on:click="a=false">
+        <input type="button" value="按钮" v-on:click="a=a?false:true">
         <div style="width:100px; height:100px; background: red" v-show="a">
 
         </div>
