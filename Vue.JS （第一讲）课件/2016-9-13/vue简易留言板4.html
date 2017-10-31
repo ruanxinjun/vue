@@ -22,7 +22,8 @@
                     myData:[],
                     username:'',
                     age:'',
-                    nowIndex:-100
+                    nowIndex:-100,
+                    delmsg:''
                 },
                 methods:{
                     add:function(){
@@ -41,6 +42,11 @@
                             this.myData.splice(n,1);
                         }
                     }
+                },
+                watch:{
+                   nowIndex:function(v){
+                      this.delmsg = v>=0?'确认删除吗':'确认删除全部数据吗';
+                   } 
                 }
             });
         };
@@ -99,7 +105,7 @@
                         <button type="button" class="close" data-dismiss="modal">
                             <span>&times;</span>
                         </button>
-                        <h4 class="modal-title">确认删除么?</h4>
+                        <h4 class="modal-title">{{delmsg}}</h4>
                     </div>
                     <div class="modal-body text-right">
                         <button data-dismiss="modal" class="btn btn-primary btn-sm">取消</button>
