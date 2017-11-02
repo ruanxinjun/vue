@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+	<script src="lib/vue.js"></script>
+	<script src="lib/vue-resource.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
+</head>
+<body>
+<div id="drop">
+	<div class="well">
+		{{apptitle}}
+	</div>
+	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+	<label for="input-id" class="col-sm-12">输入关键词：</label>
+	<input
+	 @keyup="show()"
+	 @keydown.down="down"
+	 @keydown.right="right"
+	 @keyup.up = "up"
+	 @keydown.enter="enter"
+	  type="text" ref="input" id="input-id" class="form-control" v-model="wd">
+	<ul class="list-group">
+		<li 
+		 @mouseover="nowindex=index" 
+		 @click="select(index)"
+		:class="{active:index==nowindex}" 
+		 class="list-group-item"
+		  v-for="(item,index) of list">{{item}}
+		</li>
+	</ul>
+	</div>
+
+</div>
+<script>
+var app = new Vue({
+	el:'#drop',
+	data:{
+			apptitle:'百度下拉框',
+			list:[],
+			wd:'',
+			active:false,
+			nowindex:-1
+	},
+	methods:{
+		show:function(){
+			if(this.wd!=''){
+			this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{wd:this.wd},{jsonp:'cb'})
+			.then(function(res){
+				this.list = res.data.s;
+				},function(error){
+			  });
+			}
+		},
+		down:function(){
+			this.nowindex++;
+			if(this.list.length==this.nowindex){
+				this.nowindex=0;
+			}
+			//this.wd = this.list[this.nowindex];
+		},
+		up:function(){
+			this.nowindex--;
+			if(this.nowindex==-1){
+				this.nowindex=this.list.length-1;
+			}
+			//this.wd = this.list[this.nowindex];
+		},
+		right:function(){
+			if(this.wd!='')
+			this.wd = this.list[this.nowindex];
+		},
+		enter:function(){
+			if(this.nowindex>=0){
+				this.wd = this.list[this.nowindex];
+				window.open('https://www.baidu.com/s?wd='+this.wd);
+			}
+		},
+		select:function(index){
+			this.nowindex = index;
+			this.wd = this.list[this.nowindex];
+			this.$refs.input.focus();
+		}
+	}
+});	
+
+</script>
+</body>
+</html>
