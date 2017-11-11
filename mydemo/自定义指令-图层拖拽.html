@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<script src="lib/vue.js"></script>
+	<script src="lib/vue-resource.js"></script>
+	<script src="lib/jquery-1.7.2.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
+	<style>
+		.box{
+			background: red;
+			position: absolute;
+			left: 100px;
+			top: 100px;
+			width: 200px;
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+<div id="container">
+	<div class="box" v-drag="{bgcolor:'green',fsize:'12pt'}">
+		<input type="text" @keydown.ctrl="add(1)"/>
+	</div>
+</div>
+<script>
+	Vue.directive('drag',function(e,binding){
+		e.style.backgroundColor =binding.value.bgcolor;
+		e.style.fontSize=binding.value.fsize
+		e.onmousedown = function(event){
+			var disX=  event.clientX-e.offsetLeft;
+			var disY=  event.clientY-e.offsetTop;
+			document.onmousemove = function(event){
+				e.style.left =(event.clientX-disX)+'px';
+				e.style.top = (event.clientY-disY)+'px';
+			};
+			document.onmouseup=function(){
+				document.onmousemove = null;
+				document.onmouseup = null;
+			}
+		}
+	});
+	var app = new Vue({
+		el:'#container',
+		data:function(){
+			return {
+				msg:'<span style="color:orange">这是拖拽</span>'
+			}
+		},
+		methods:{
+			add:function(v){
+				alert(v);
+			}
+		}
+	});
+</script>
+</body>
+</html>

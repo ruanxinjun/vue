@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+<script src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="container">
+		<aaa></aaa>
+		<bbb></bbb>
+	</div>
+
+	<template id="temp1">
+		<h1>{{msg}}</h1>
+	</template>
+
+	<template id="temp2" >
+		<h1>{{msg}}</h1>
+	</template>
+
+<script>
+
+ 	var aaa= Vue.extend({
+ 		template:'#temp1',
+ 		data(){
+ 			return {
+ 				msg:'abc'
+ 			}
+ 		}
+ 	});
+
+
+ 	var bbb= Vue.extend({
+ 		template:'#temp2',
+ 		data(){
+ 			return {
+ 				msg:'def'
+ 			}
+ 		}
+ 	});
+
+ 	Vue.component('aaa',aaa);
+ 	Vue.component('bbb',bbb);
+  
+ 	new Vue({
+ 		el:'#container'
+ 	})
+</script>	
+</body>
+</html>
