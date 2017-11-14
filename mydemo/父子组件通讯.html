@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+<script src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="box">
+		<son-app :fmsg="father"></son-app>
+		<hr/>
+		<dau-app :fmsg="father"></dau-app>
+		<hr/>
+		<family :pmsg="father"></family>
+	</div>
+
+	<template id="dautemp">
+		<div>{{dau}},hi,its have some :{{fmsg}}<div>
+	</template>
+
+	<template id="familytemp">
+		<div>
+			{{familymsg}}----{{pmsg}}
+			<hr/>
+			<mychild :familymsg="familymsg" :father="pmsg"></mychild>
+		</div>
+	</template>
+
+	<template id="childtemp">
+		<div>{{childinfo}},不错啊:{{familymsg}}---{{father}}</div>
+	</template>
+
+	<script>
+		var  app  = new Vue({
+			el:'#box',
+			data(){
+				return {
+					father:'我是父亲'
+				}
+			},
+			components:{
+				'sonApp':{
+					data(){
+						return {
+							son:'我是儿子'
+						}
+					},
+					props:['fmsg'],
+					template:'<div>{{son}},这是父亲的信息：{{fmsg}}</div>'
+				},
+				'dauApp':{
+					data(){
+						return {
+							dau:'这是女儿的信息'
+						}
+					},
+					props:['fmsg'],
+					template:'#dautemp'
+				},
+				'family':{
+					data(){
+						return {
+							familymsg:'我爱我家'
+						}
+					},
+					props:['pmsg'],
+					template:'#familytemp',
+					components:{
+						'mychild':{
+							data(){
+								return {
+									childinfo:'这是我的家庭信息'
+								}
+							},
+							props:['familymsg','father'],
+							template:'#childtemp'
+						}
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>
