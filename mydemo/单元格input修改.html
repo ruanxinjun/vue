@@ -197,6 +197,7 @@
 			},
 			//选中单个数据
 			seldata:function(id){
+				this.cancel();
 				var _users = this.users;
 				var _index = this.currindex;
 				_users.forEach(function(u,index){
@@ -213,11 +214,7 @@
 				this.ckall=false;
 				var _users = this.users;
 				_users.forEach(function(u,index){
-					if(this.currindex!=-1){
-						u.checked = this.currindex ==index;
-					}else{
-						u.checked=false;
-					}
+					u.checked=false;
 				});
 				this.users = _users;
 			}
