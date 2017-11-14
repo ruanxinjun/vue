@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<script src="lib/vue.js"></script>
+<script src="bower_components/vue-router/dist/vue-router.min.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
+<style>
+	.router-link{color:gray;text-decoration: none}
+	.router-link-active{color:red;text-decoration: none}
+	.btn{padding:5px;border-radius:0px;font-size:9pt;}
+</style>
+</head>
+<body>
+	<div id="app">
+		
+		<div class="btn-group">
+		<router-link to="/home" class="btn btn-info">home</router-link>
+		<router-link to="/news/152"  class="btn btn-info">news</router-link>
+		</div>
+
+		<router-view></router-view>
+
+	</div>
+
+	<template id="home">
+		<div class="well">
+			 这是我的第一个SPA，{{title}}
+			 <hr/>
+		</div>
+	</template>
+
+	<template id="news">
+		<div>
+		<div class="alert alert-info">
+			<strong>资讯列表</strong>
+		</div>
+		<ul class="list-group">
+			{{newsid}}
+			<li class="list-group-item" v-for="(item,index) of newslist">
+				{{item.title}}
+			</li>
+		</ul>
+		</div>
+	</template>
+
+	<script>
+		
+		var Home =
+		 {
+			template:'#home',
+			data(){
+				return {
+					title:'这好我的首页应用啦'
+				}
+			}
+		};
+
+		var News = 
+		{
+			template:'#news',
+			data(){
+				return {
+					newslist:[
+						{id:1,title:'伟大的中国'},
+						{id:2,title:'新加坡的历史，我么挺好'}
+					],
+					newsid:$route.params.id
+				}
+			}
+
+		};
+
+		var pathinfo = [
+			{path:'/home',component:Home},
+			{path:'/news/:id',component:News}
+		];
+
+		var router = new VueRouter({
+			routes:pathinfo
+		});
+
+		new Vue({
+			el:'#app',
+			router:router
+		});
+
+
+	</script>
+</body>
+</html>
