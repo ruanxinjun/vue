@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+<script src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="container">
+		<comm msg="msg">
+			<ul slot="ulslot">
+				<li>a</li>
+				<li>{{msg}}</li>
+				<li>c</li>
+				<li>d</li>
+			</ul>
+			<ol slot="olslot">
+				<li>{{msg}}</li>
+				<li>2</li>
+				<li>3</li>
+			</ol>
+		</comm>
+	</div>
+
+		<template id="aaa">
+			<div>
+				<h1>This is Header</h1>
+				<slot name="olslot">默认1</slot>
+				<slot name="ulslot">默认2</slot>
+				<p>welcome to this</p>
+			</div>
+		</template>
+
+
+<script>
+
+ 	var app = new Vue({
+ 		el:'#container',
+ 		data:{
+ 			msg:'hello'
+ 		},
+ 		components:{
+ 			'comm':{
+ 				props:['msg'],
+ 				template:'#aaa'
+ 			}
+ 		}
+ 	})
+</script>	
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+<script src="lib/vue.js"></script>
+<script src="bower_components/vue-router/dist/vue-router.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<a v-link="{path:'home'}">首页</a>
+		<a v-link="{path:'news'}">新闻</a>
+
+		<div>
+			<router-view></router-view>
+			<router-view></router-view>
+		</div>
+	</div>
+<script>
+	//1
+ 	var App = Vue.extend();
+ 	//2
+ 	var Home = Vue.extend({
+ 		template:'<h1>home page</h1>'
+ 	});
+ 	var News = Vue.extend({
+ 		template:'<h1>news page</h1>'
+ 	});
+ 	//3
+ 	var router = new VueRouter();
+ 	//4
+ 	router.map({
+ 		'home':{
+ 			component:Home
+ 		},
+ 		'news':{
+ 			componnet:News
+ 		}
+ 	});
+ 	//5:
+ 	router.start(App,'#container');
+
+
+</script>	
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+<script src="lib/vue.js"></script>
+<style>
+.appcss{border:1px solid #ccc;padding:5px;width:250px;background:#ebebeb;}
+</style>
+</head>
+<body>
+<div id="box">
+	{{message}}
+	<comm v-on:domsg="show('cao')"></comm>
+</div>
+
+<script>
+
+
+	var app = new Vue({
+		el:'#box',
+		data:{message:'hi'},
+		methods:{
+			show(msg){
+				this.message = msg;
+			}
+		},
+		components:{
+			'comm':{
+				template:'<button @click="showmsg">I love youafsdfsf</button>',
+				methods:{
+					showmsg(){
+						this.$emit("domsg",'caonimei');
+					}
+				}
+			}
+		}
+
+	})
+</script>
+</body>
+</html>

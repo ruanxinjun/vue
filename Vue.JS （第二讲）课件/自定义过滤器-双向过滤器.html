@@ -14,7 +14,7 @@
         //<h2>welcome</h2>
         Vue.filter('filterHtml',{
             read:function(input){ //model-view
-                alert(1);
+               // alert(1);
                 return input.replace(/<[^<]+>/g,'');
             },
             write:function(val){ //view -> model

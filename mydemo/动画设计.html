@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=description content="">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+<script src="lib/vue.js"></script>
+<script src="bower_components/velocity/velocity.min.js"></script>
+<link rel="stylesheet" type="text/css" href="bower_components/animate.css/animate.min.css"/>
+<style>
+	.mys{
+		background:red;
+		width:150px;
+		height:150px;
+	}
+</style>
+</head>
+<body>
+<div id="container">
+	<button @click="toggle">动画效果</button>
+	
+	<!-- 用第三方的css3特效 -->
+	<transition
+    name="custom-classes-transition"
+    enter-active-class="animated zoomInLeft"
+    leave-active-class="animated  zoomOutRight">
+    <div v-if="show" :class="mys">hello</div>
+   </transition>
+	<hr/><hr/>
+	<button @click="toggle2">动画效果</button>
+   <!-- 用velocity.js特效 -->
+   <transition v-on:enter="enter" v-on:leave="leave">
+	<div v-if="show2" :class="mys">hello</div>
+   </transition>
+
+</div>	
+<script>
+	var app = new Vue({
+		el:'#container',
+		data:{
+			show:true,
+			show2:false,
+			mys:'mys'
+		},
+		methods:{
+			toggle:function(){
+				this.show = !this.show;
+			},
+			toggle2:function(){
+				this.show2 = !this.show2;
+			},
+			enter: function (el, done) {
+      Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+      Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+      Velocity(el, {
+        rotateZ: '45deg',
+        translateY: '30px',
+        translateX: '30px',
+        opacity: 0
+      }, { complete: done })
+    }
+		}
+	});
+</script>		
+</body>
+</html>
