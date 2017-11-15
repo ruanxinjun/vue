@@ -5,20 +5,25 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title></title>
 <script src="lib/vue.js"></script>
+<script src="lib/vue-resource.js"></script>
 <script src="bower_components/vue-router/dist/vue-router.min.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
 <style>
-	.router-link{color:gray;text-decoration: none}
-	.router-link-active{color:red;text-decoration: none}
-	.btn{padding:5px;border-radius:0px;font-size:9pt;}
+	.router-link{color:gray;text-decoration:none}
+	.router-link-active{text-decoration: none}
+	.btn{padding:10px;border-radius:0px;font-size:9pt;margin-right:5px;}
 </style>
 </head>
 <body>
 	<div id="app">
 		
-		<div class="btn-group">
-		<router-link to="/home" class="btn btn-info">home</router-link>
-		<router-link to="/news/152"  class="btn btn-info">news</router-link>
+		<div class="alert alert-success  col-lg-12">
+		<router-link :to="'/home'" class="btn btn-info btn-lg">首页</router-link>
+		<router-link :to="'/news'" class="btn btn-info btn-lg">资讯列表</router-link>
+		<router-link :to="'/news/addnews'" class="btn btn-info btn-lg">发布资讯</router-link>
+		<router-link :to="{name:'jobs'}" class="btn btn-info btn-lg">人力资源</router-link>
+		<button class="btn btn-info btn-lg" @click="menuset">目录设置</button>
+		<button class="btn btn-info" style="padding:4px;float:right" @click="goback">返回</button>
 		</div>
 
 		<router-view></router-view>
@@ -26,34 +31,57 @@
 	</div>
 
 	<template id="home">
-		<div class="well">
+		<div class="well col-lg-12">
 			 这是我的第一个SPA，{{title}}
 			 <hr/>
 		</div>
 	</template>
 
 	<template id="news">
-		<div>
+		<div class="col-lg-12">
 		<div class="alert alert-info">
 			<strong>资讯列表</strong>
 		</div>
 		<ul class="list-group">
-			{{newsid}}
 			<li class="list-group-item" v-for="(item,index) of newslist">
 				{{item.title}}
+				<router-link :to="{path:'/editnews',query:{id:item.id}}" class="btn btn-info">编辑</router-link>	
 			</li>
 		</ul>
+		<router-view></router-view>
+		</div>
+	</template>
+
+	<template id="editnews">
+		<div class="col-lg-12">
+			<div class="alert alert-info">
+			<strong>编辑资讯</strong>
+			</div>
+		<form class="col-lg-5">
+			<div class="form-group">
+				<label for="">资讯标题</label>
+				<input ref="title" type="text" :value="curnews.title" class="form-control">
+			</div>
+			<button type="button" class="btn btn-primary" @click="editnews(curnews.id)">修改</button>
+			<router-link :to="{path:'/news'}" class="btn btn-primary">取消</router-link>
+		</form>
 		</div>
 	</template>
 
 	<script>
 		
+		var newslist =
+		 [
+			{id:1,title:'伟大的中国'},
+			{id:2,title:'新加坡的历史，我么挺好'}
+		];
+
 		var Home =
 		 {
 			template:'#home',
 			data(){
 				return {
-					title:'这好我的首页应用啦'
+					title:'SPA的意思就是single page application，就是单页应用的页面'
 				}
 			}
 		};
@@ -63,19 +91,57 @@
 			template:'#news',
 			data(){
 				return {
-					newslist:[
-						{id:1,title:'伟大的中国'},
-						{id:2,title:'新加坡的历史，我么挺好'}
-					],
-					newsid:$route.params.id
+					newslist:newslist
 				}
 			}
+		};
 
+		var EditNews = {
+			template:'#editnews',
+			data(){
+				return {
+					nowps:this.$route.query
+				}
+			},
+			computed:{
+				curnews(){
+					var newsid = this.nowps.id;
+					var singles = newslist.find(function(item){
+						return item.id==newsid;
+					});
+					return singles;
+				}
+			},
+			methods:{
+				editnews(newsid){
+
+				}
+			}
+		};
+
+		var AddNews = {
+			template:'<span>Add News</span>'
+		};
+
+		var Jobs = {
+			template:'<div class="well">招贤纳士,哈哈</div>'
 		};
 
 		var pathinfo = [
 			{path:'/home',component:Home},
-			{path:'/news/:id',component:News}
+			{
+				path:'/news',
+				component:News,
+				children:[
+					{
+						path:'addnews',
+						component:AddNews
+					}
+				]
+			},
+			{path:'/editnews',component:EditNews},
+			{path:'/menu',component:Home,name:'menu'},
+			{path:'/jobs',component:Jobs,name:'jobs'}
 		];
 
 		var router = new VueRouter({
@@ -84,7 +150,15 @@
 
 		new Vue({
 			el:'#app',
-			router:router
+			router:router,
+			methods:{
+				menuset(){
+					this.$router.push({name:'menu'});	
+				},
+				goback(){
+					this.$router.go(-1);
+				}
+			}
 		});
 
 
