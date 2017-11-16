@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<script src="lib/vue.js"></script>
+<script src="lib/vue-resource.js"></script>
+<script src="bower_components/vue-router/dist/vue-router.min.js"></script>
+<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>	
+<style>
+	.router-link{color:gray;text-decoration:none}
+	.router-link-active{text-decoration: none}
+	.btn{padding:5px;border-radius:0px;font-size:9pt;margin-right:5px;}
+	.list-group-item{background:#ebebeb;cursor:pointer}
+	.list-group-item:hover{background:#ccc;}
+	.btn-lg{padding:5px;padding-right:10px;padding-left:10px;}
+</style>
+</head>
+<body>
+
+<div id="box">
+	<router-view name="top"></router-view>
+	<router-view name="left"></router-view>
+	<router-view name="right"></router-view>
+	<div class="col-lg-1 right"></div>
+</div>
+	
+	<template id="top">
+	<div class="well col-lg-12">
+		<h2>{{apptitle}}</h2>
+		<div class="btn-group">
+			<button type="button" class="btn" :class="{'btn-success':$route.name=='index'}" @click="goUrl('index')">首页</button>
+			<button type="button" class="btn" :class="{'btn-success':$route.name=='news'}" @click="goUrl('news')">新闻资讯</button>
+			<button type="button" class="btn" :class="{'btn-success':$route.name=='product'}" @click="goUrl('product')">产品管理</button>
+		</div>
+	</div>
+	</template>
+
+	<template id="left">
+	<div class="panel panel-default col-lg-2 col-lg-offset-1">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{menutitle}}</h3>
+		</div>
+		<div class="panel-body">
+			<ul class="list-group">
+			<li class="list-group-item" v-for="(m,index) of menus" @click="goUrl(m.name)">{{m.title}}</li>
+			</ul>
+		</div>
+	</div>
+	</template>
+
+	<template id="right">
+	<div class="jumbotron col-lg-7 col-lg-offset-1 right">
+		<div class="container">
+			<h3>vue-router的视图控制测试系统</h3>
+			<p>十五年的基层审判实践，让我深切感受到，只有设身处地为群众着想，才能真正赢得群众认同。
+	十几年的法官生涯，我办结的5000多个案件中，有40%是在立案7天内调解结案的，所有案件中，无一发回重审、无一撤销改判、无一申诉信访、无一投诉举报。在上万名当事人如释重负的笑脸里，我收获的是满满的幸福。</p>
+		</div>
+	</div>
+	</template>
+
+	<template id="newslist">
+		<ul>
+			<li v-for="(item,index) of newslist">{{item}}</li>
+		</ul>
+	</template>
+
+<script>
+
+	//配置一些基础信息
+	var configs = {};
+
+	//app 名称
+	configs.apptitle = '后台管理界面';
+
+	//路由名称对应的中文名
+	configs.alias =
+	{
+		index:'管理菜单',
+		news:'资讯菜单',
+		product:'产品管理'
+	};
+
+	//根据不同的路由名加载管理菜单
+	configs.menus =
+	{
+		index:[
+			{title:'资讯管理',name:'news'},
+			{title:'产品管理',name:'product'}
+		],
+		news:[
+			{title:'添加资讯',name:'addnews'},
+			{title:'资讯列表',name:'news'},
+			{title:'导出资讯',name:'output'}
+		],
+		product:[
+			{title:'发布产品',name:'addpro'},
+			{title:'产品列表',name:'product'},
+			{title:'产品认证',name:'proauth'}
+		]
+	};
+
+
+	//功能模块
+	var Framework = {
+		
+		//顶部
+		Top:
+		{
+			template:'#top',
+			methods:{
+				goUrl(name){
+					this.$router.push({name:name});
+				}
+			},
+			data(){
+				return {
+					apptitle:configs.apptitle
+				}
+			}
+		},
+
+		//左侧导航
+		Left:
+		{
+			template:'#left',
+			computed:{
+				menus(){
+					var name = this.$route.name;
+					return eval('configs.menus.'+name);
+				},
+				menutitle(){
+					var name = this.$route.name;
+					return eval('configs.alias.'+name);
+				}
+			},
+			methods:{
+				goUrl(name){
+					this.$router.push({name:name});
+				}
+			}
+		},
+
+		//右侧工作区
+		Right:
+		{
+			template:'#right'
+		},
+
+		//资讯列表
+		NewsList:{
+			template:'#newslist',
+			computed:{
+				newslist(){
+					this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{wd:'暗黑'},{jsonp:'cb'})
+					.then(function(res){
+						return  res.data.s;
+						},function(error){
+					  });
+				}
+			}
+		}
+	};
+
+	//配置路由：
+	var rts = [
+		{
+			path:'/',
+			name:'index',
+			components:
+			{
+				top:Framework.Top,
+				left:Framework.Left,
+				right:Framework.Right
+			}
+		},
+		{
+			path:'/news',
+			name:'news',
+			components:
+			{
+				top:Framework.Top,
+				left:Framework.Left,
+				right:Framework.NewsList
+			}
+		},
+		{
+			path:'/product',
+			name:'product',
+			components:
+			{
+				top:Framework.Top,
+				left:Framework.Left,
+				right:Framework.Right
+			}
+		}
+	];
+
+	//实例化路由
+	var router = new VueRouter({
+		routes:rts
+	});
+
+	//把路由挂载在box容器内
+	new Vue({
+		el:'#box',
+		router:router
+	});
+
+</script>
+</body>
+</html>
