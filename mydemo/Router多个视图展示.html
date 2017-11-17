@@ -49,7 +49,7 @@
 	</template>
 
 	<template id="right">
-	<div class="jumbotron col-lg-7 col-lg-offset-1 right">
+	<div class="jumbotron col-lg-8 col-lg-offset-1 left">
 		<div class="container">
 			<h3>vue-router的视图控制测试系统</h3>
 			<p>十五年的基层审判实践，让我深切感受到，只有设身处地为群众着想，才能真正赢得群众认同。
@@ -59,9 +59,40 @@
 	</template>
 
 	<template id="newslist">
-		<ul>
-			<li v-for="(item,index) of newslist">{{item}}</li>
-		</ul>
+		<div class="col-lg-8 col-lg-offset-1 left">
+			<div class="well" v-show="!loading">
+					<table class="table table-bordered table-hover table-striped">
+						<legend>资讯列表</legend>
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>关键词</th>
+								<th>编辑</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(item,index) of newslist">
+								<td>{{index+1}}</td>
+								<td>{{item}}</td>
+								<td>
+									<button @click="editNews(index)" type="button" class="btn btn-sm btn-info">编辑</button>
+									<button type="button" class="btn btn-sm btn-warning">删除</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+			<div class="well" v-show="loading">
+				数据加载中...{{$route.path}}
+			</div>
+		<router-view :msg="msg"></router-view>
+	</div>
+	</template>
+
+	<template id="editnews">
+		<div>
+			here is parent:--{{msg}}
+		</div>
 	</template>
 
 <script>
@@ -149,15 +180,34 @@
 		//资讯列表
 		NewsList:{
 			template:'#newslist',
-			computed:{
-				newslist(){
-					this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{wd:'暗黑'},{jsonp:'cb'})
+			data(){
+				return {
+					newslist:[],
+					loading:true,
+					msg:'fackyou'
+				}
+			},
+			created(){
+				setTimeout(() => {
+				  this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{wd:'猎场'},{jsonp:'cb'})
 					.then(function(res){
-						return  res.data.s;
-						},function(error){
-					  });
+						this.newslist =  res.data.s;
+						this.loading=false;
+					},function(error){
+				});
+				}, 1000)
+			},
+			methods:{
+				editNews(indexs){
+					this.$router.push({name:'editnews',params:{id:indexs}});
 				}
 			}
+		},
+
+		//修改资讯
+		EditNews:{
+			props:['msg'],
+			template:'#editnews'
 		}
 	};
 
@@ -181,7 +231,15 @@
 				top:Framework.Top,
 				left:Framework.Left,
 				right:Framework.NewsList
-			}
+			},
+			children:
+			[
+				{
+					path:':id',
+					name:'editnews',
+					component:Framework.EditNews
+				}
+			]
 		},
 		{
 			path:'/product',
