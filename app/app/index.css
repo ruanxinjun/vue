@@ -1,0 +1,11 @@
+body{
+	background: green;
+	color:orange;
+	margin:0px;
+	display: flex;
+}
+
+div{
+	border:1px solid #ccc;
+	padding:25px;
+}
