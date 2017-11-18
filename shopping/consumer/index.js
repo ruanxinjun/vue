@@ -1,0 +1,1 @@
+document.getElementById("box").innerHTML=" consumer page!!!"

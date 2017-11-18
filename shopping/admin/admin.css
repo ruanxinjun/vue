@@ -1,0 +1,11 @@
+body{
+	
+	color:green;
+	display: flex;
+}
+
+.iconstest{
+	background: url(../images/bg.png);
+	width:150px;
+	height:200px;
+}
