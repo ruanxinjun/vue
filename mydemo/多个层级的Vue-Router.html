@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js"></script>
+<script src="bower_components/vue-router/dist/vue-router.min.js"></script>
+</head>
+<body>
+<div id="app">
+	<menus></menus>
+	<router-view></router-view>
+</div>
+
+<template id="menus">
+	<ul>
+		<li @click="goView('/')">index</li>
+		<li>
+			<span @click="goView('/a')">AAAA</span>
+			<ol>
+				<li  @click="gotSubView('/a/1',1)">AAAA-1</li>
+				<li  @click="gotSubView('/a/2',2)">AAAA-2</li>
+			</ol>
+		</li>
+		<li @click="goView('/b')">BBBB</li>
+		<li @click="goView('/c')">CCC</li>
+	</ul>
+</template>
+
+<script>
+
+
+	var menus = {
+		template:'#menus',
+		methods:{
+			goView(path){
+				this.$router.push({path:path});
+			},
+			gotSubView(path,id){
+				this.$router.push({path:path,params:{id:id}});
+			}
+		}
+	};
+
+	var routes =[
+		{
+			path:'/',
+			component:
+			{
+				template:`<div>it is home</div>`
+			}
+		},
+		{
+			path:'/a',
+			component:
+			{
+				template:`
+				<div>
+				it is a<br/>
+				<router-view></router-view>
+				</div>`
+			},
+			children:[
+				{
+					path:':id',
+					component:
+					{
+						template:`<div>AAAA-{{$route.params.id}}</div>`
+					}
+				}
+			]
+		},
+		{
+			path:'/b',
+			component:
+			{
+				template:`<div>it is b</div>`
+			}
+		},
+		{
+			path:'/c',
+			component:
+			{
+				template:`<div>it is c</div>`
+			}
+		}
+	];
+
+	var router = new VueRouter({routes});
+
+
+
+	new Vue({
+		el:'#app',
+		components:{
+			menus
+		},
+		router
+	});
+
+	// var App  = 
+	// {
+	// 	props:['msg'],
+	// 	template:
+	// 	`
+	// 	<div>{{msg}}</div>
+	// 	`
+	// };
+
+	//  new Vue({
+	// 	el:'#app',
+	// 	data:{msg:'hello'},
+	// 	template:'<App :msg="msg"/>',
+	// 	components:{
+	// 		App
+	// 	}
+	// });
+</script>	
+</body>
+</html>
