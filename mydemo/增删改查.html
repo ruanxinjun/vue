@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<script src="lib/vue.js"></script>
+	<style>
+	 li{list-style:none;margin:5px;width:200px;height:25px;padding:5px;background:white;color:green;}
+	.chk{background:green;color:white;}
+	li span{padding:5px;border-radius: 10px;border:1px solid red;background:#ebebeb;color:black;font-size:9pt;float:right;}
+	.edit label{display:none;}
+	.edit span{display:none;}
+	.edit input {display:block}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div>{{header}}</div>
+	<div>增加：<input v-model="puts" type="text" @keydown.enter="adds"/></div>
+	<div>列表：<br/>
+		<ul>
+			<li @mouseover="select(index)" v-for="(item,index) in lists" :class="{chk:item.chk,edit:item.edit}">
+				<label>{{item.title}}</label>
+				<span @click="del(index)">删除</span>
+				<span @click="edit(index)">修改</span>
+				<input type="text" v-focus="item.edit" @blur="finish(index)" v-model="item.title" v-show="item.edit" @keydown.enter="finish(index)" @keyup.esc="cancel(index)"/>
+			</li>
+		</ul>
+	</div>
+</div>
+	<script>
+		let _lists = [
+			{title:'A',chk:false,edit:false},
+			{title:'B',chk:false,edit:false},
+			{title:'C',chk:false,edit:false}
+		];
+		let header = '增删改查';
+		let vm = new Vue({
+			el:'#app',
+			data(){
+				return {
+				  header:header,
+				  lists:_lists,
+				  puts:'',
+				  nowedit:''
+				}
+			},
+			methods:{
+				adds(){
+					if(this.puts!=''){
+						this.lists.push({title:this.puts,chk:false,edit:false});
+					}
+					this.puts = '';
+				},
+				select(i){
+					var _T= this.lists;
+					_T.forEach((item,i)=>{
+						item.chk=false;
+					});
+					this.lists = _T;
+					this.lists[i].chk = !this.lists[i].chk;	
+				},
+				del(i){
+					this.lists.splice(i,1);
+				},
+				edit(i){
+					var _T= this.lists;
+					_T.forEach((item,i)=>{
+						item.edit=false;
+					});
+					this.lists = _T;
+					this.lists[i].edit = !this.lists[i].edit;
+					this.nowedit = this.lists[i].title;	
+				},
+				finish(i){
+					this.lists[i].edit=false;
+				},
+				cancel(i){
+					this.lists[i].title = this.nowedit;
+					this.finish(i);
+					this.nowedit = '';
+				}
+			},
+			directives:{
+				'focus':{
+					update(el,binding){
+						el.focus();
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>
