@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js"></script>
+<style>
+	.red{color:red;}
+</style>
+</head>
+<body>
+	<div id="app">
+		<cus-select :cor="red"></cus-select>
+	</div>
+	<script>
+		Vue.component('cusSelect',{
+			data:()=>{
+				return {
+					value:'ABC'
+				}
+			},
+			props:['cor'],
+			template:
+			`
+			<div>
+			<select>
+				<option selected value="-1">------</option>
+				<option value="AAA">AAA</option>
+				<option value="BBB">BBB</option>
+				<option value="CCC">CCC</option>
+			</select>
+			<label :class="{red:cor}">{{value}}</label>
+			</div>
+			`
+		});
+		new Vue(
+		{
+			el:'#app',
+			data:{
+				red:true
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<tree></tree>
+	</div>
+	<script>
+		/**
+		 * 主
+		 * @param  {[type]} 'tree'      [description]
+		 * @param  {[type]} {			data:( [description]
+		 * @return {[type]}             [description]
+		 */
+		Vue.component('tree',{
+			data:()=>{
+				return {
+					list:['AAA','BBB','CCC'],
+					sublist:['AAA1','BBB1','CCC1'],
+					secondlist:['AAA2','BBB2','CCC2']
+				}
+			},
+			methods:{
+				showuls:function(item){
+					alert(item);
+				}
+			},
+			template:
+			`
+			<ul>
+			<li v-for="item in list">
+			<a href="#">{{item}}</a>
+			</li>
+			<uls :list="sublist" :secondlist="secondlist" @showuls="showuls(list)"></uls>
+			</ul>
+			`
+		});
+		/**
+		 * 一级
+		 * @type {Array}
+		 */
+		Vue.component('uls',{
+			props:['list','secondlist'],
+			methods:{
+				justdoit:function(item){
+					this.$emit('showuls',item);
+				}
+			},
+			template:
+			`
+			<ul>
+				<li v-for="item in list" @click="justdoit">
+				<a href="#">{{item}}</a>
+				</li>
+				<ulss :list="secondlist"></ulss>
+			</ul>
+			`
+		});
+		/**
+		 * 二级
+		 * @type {[type]}
+		 */
+		Vue.component('ulss',{
+			props:['list'],
+			template:
+			`
+			<ol>
+			<li v-for="item in list">{{item}}</li>
+			</ol>
+			`
+		});
+		new Vue({
+			el:'#app'
+		});
+	</script>
+</body>
+</html>

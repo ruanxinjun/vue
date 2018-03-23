@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js"></script>
+<style>
+	.seldiv{padding:5px;width:300px;}
+	.seldiv .putcss{padding:5px;border:1px solid #ccc;width:95%;}
+	.seldiv ul{list-style:none;margin:0px;padding:0px;}
+	.seldiv ul li {height:30px;width:95%;background:#ebebeb;color:green;margin-top:5px;padding-left:15px;}
+	.seldiv ul li:hover{background:green;color:white;}
+</style>
+</head>
+<body>
+	<div id="app">
+		<col-select :list="list"></col-select>
+	</div>
+	<script>
+
+		var seltemplate = {
+			props:['list'],
+			methods:{
+				search:function(){
+					this.blshow  = this.input!='';
+				},
+				setitem:function(item){
+					console.log(item);
+				}
+			},
+			data:function(){
+				return {
+					blshow:false,
+					input:''
+				}
+			},
+			template:
+			`
+			<div class="seldiv">
+			<input type="text" v-model="input" class="putcss" @keyup="search"/>
+			<sel-list :list="list" :blshow="blshow" :input="input" :sitem="setitem('1')"></sel-list>
+			</div>
+			`
+		};
+
+		Vue.component('selList',{
+			props:['list','blshow','input'],
+			computed:{
+				mylist:function(){
+					return this.list.filter((item)=>{
+						return item.indexOf(this.input.toUpperCase())!=-1;
+					});
+				}
+			},
+			methods:{
+				setitem:function(item){
+					this.$emit('sitem',item);
+				}
+			},
+			template:
+			`
+			 <ul v-show="blshow">
+			 <li v-for="item in mylist" @click="setitem(item)">{{item}}</li>
+			 </ul>
+			`
+		});
+
+		Vue.component('colSelect',seltemplate);
+
+		new Vue({
+				el:'#app',
+				data:{
+				  list:['A','A1','A11','B','B1','B11','C','C1','C11']
+				}
+			}
+		);
+	</script>
+</body>
+</html>

@@ -5,21 +5,34 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 <script src="lib/vue.js"></script>
+<style>
+	.red{
+		color:red;
+	}
+</style>
 </head>
 <body>
 	<div id="demo">
 	</div>
 	<script>
-		let el = '#demo';
-		let data = ()=>{
-			return {
-				msg:'this is message'
+		var com = {
+			template:'<div><fack/>,b</div>',
+			components:{
+				'fack':{
+					template:'<span>c</span>'
+				}
 			}
 		};
 		let vm = new Vue({
-			el,
-			data,
-			render:h=>h('div',"love222")
+			el:'#demo',
+			data(){
+				return {
+				msg:'a'
+			}
+			},
+			render:h=>h(com,{
+				class:'red'
+			})
 		});
 	</script>
 </body>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js"></script>
+<style>
+body{margin:10px auto;padding:0px;width:50%;}
+button{cursor:pointer;}
+.head{background:green;color:white;font-size:9pt;padding:10px;}
+.adddiv{background:#ebebeb;margin:5px auto;padding:5px;}
+.adddiv h3{color:orange;font-size:11pt;}
+.adddiv input{padding:5px;border:1px solid #ccc;width:99%;}
+.btndiv{background:#ebebeb;color:green;padding:5px;height:30px;}
+.btndiv span{font-size:15pt;font-weight:bold;margin-right:10px;float:left;}
+.btndiv button{border:1px solid #ccc;padding:5px;float:right;margin-right:5px;}
+.btndiv button:hover{background:#ccc}
+.list{border-top:3px solid #ccc;}
+.list ul {margin:0px;padding:0px;list-style:none;}
+.list ul li {height:25px;padding:5px;}
+.list ul li .chk{margin-right:10px;}
+.btm{border-bottom:1px solid #ccc;}
+</style>
+</head>
+<body>
+<div id="app">
+	<div class="head">这个我的便签计划</div>
+	<div class="adddiv">
+		<h3>添加任务：</h3>
+		<input type="text" v-model="put" id="addput" placeholder="请输入内容" @keyup.enter="addTask(1,$event)"/>
+	</div>
+	<div class="btndiv" v-show="list.length">
+		<span>5个</span>未完成的任务
+		<button type="button">已完成任务</button>
+		<button type="button">未完成任务</button>
+		<button type="button">所有任务</button>
+	</div>
+	<div class="list" v-show="list.length">
+		哈哈
+		<ul>
+			<li v-for="(item,index) in list" :class="{btm:item.chk}">
+				<input type="checkbox" class="chk" v-model="item.chk"/>{{item.title}}
+				<button type="button" @click="del(index)">删除</button>
+			</li>
+		</ul>
+	</div>
+</div>
+<script>
+
+	var list = [
+	{title:'明白去看樱花',chk:false},
+	{title:'现在去美国打牌',chk:false},
+	{title:'干死他娘的东西',chk:false}
+	];
+
+	var vm = new Vue({
+		el:'#app',
+		data:{
+			list,
+			put:''
+		},
+		methods:{
+			addTask(d,ev){
+				if(this.put!=''){
+					this.list.push({title:this.put,chk:false});
+					console.log(d);
+				}
+				this.put = '';
+			},
+			del(i){
+				this.list.splice(i,1);
+			}
+		}
+	});
+
+</script>
+</body>
+</html>

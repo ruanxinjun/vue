@@ -9,6 +9,7 @@
 	 li{list-style:none;margin:5px;width:200px;height:25px;padding:5px;background:white;color:green;}
 	.chk{background:green;color:white;}
 	li span{padding:5px;border-radius: 10px;border:1px solid red;background:#ebebeb;color:black;font-size:9pt;float:right;}
+	li input {display:none}
 	.edit label{display:none;}
 	.edit span{display:none;}
 	.edit input {display:block}
@@ -17,24 +18,29 @@
 <body>
 	<div id="app">
 		<div>{{header}}</div>
+		<div v-show="lists.length">已经完成的有：{{yes}}</div>
 	<div>增加：<input v-model="puts" type="text" @keydown.enter="adds"/></div>
 	<div>列表：<br/>
 		<ul>
-			<li @mouseover="select(index)" v-for="(item,index) in lists" :class="{chk:item.chk,edit:item.edit}">
+			<li v-for="item in lists" :class="{chk:item==nowitem,edit:item==nowitem}">
 				<label>{{item.title}}</label>
-				<span @click="del(index)">删除</span>
-				<span @click="edit(index)">修改</span>
-				<input type="text" v-focus="item.edit" @blur="finish(index)" v-model="item.title" v-show="item.edit" @keydown.enter="finish(index)" @keyup.esc="cancel(index)"/>
+				<span @click="read(item)">完成</span>
+				<span @click="del(item)">删除</span>
+				<span @click="edit(item)">修改</span>
+				<input type="text" v-focus="nowitem == item" @blur="finish(item)" v-model="item.title"  @keydown.enter="finish(item)" @keyup.esc="cancel(item)"/>
 			</li>
 		</ul>
 	</div>
 </div>
 	<script>
-		let _lists = [
-			{title:'A',chk:false,edit:false},
-			{title:'B',chk:false,edit:false},
-			{title:'C',chk:false,edit:false}
-		];
+
+		let local  = {
+			save:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
+			fetch:(k)=>JSON.parse(localStorage.getItem(k)) || []
+		};
+
+		let _lists = local.fetch('get-my-list');
+
 		let header = '增删改查';
 		let vm = new Vue({
 			el:'#app',
@@ -43,43 +49,50 @@
 				  header:header,
 				  lists:_lists,
 				  puts:'',
-				  nowedit:''
+				  nowedit:'',
+				  nowitem:''
+				}
+			},
+			watch:{
+				lists:{
+					deep:true,
+					handler(){
+						local.save('get-my-list',this.lists);
+					}
 				}
 			},
 			methods:{
 				adds(){
 					if(this.puts!=''){
-						this.lists.push({title:this.puts,chk:false,edit:false});
+						this.lists.push({title:this.puts,status:0});
 					}
 					this.puts = '';
 				},
-				select(i){
-					var _T= this.lists;
-					_T.forEach((item,i)=>{
-						item.chk=false;
-					});
-					this.lists = _T;
-					this.lists[i].chk = !this.lists[i].chk;	
-				},
-				del(i){
+				del(item){
+					var i = this.lists.indexOf(item);
 					this.lists.splice(i,1);
 				},
-				edit(i){
-					var _T= this.lists;
-					_T.forEach((item,i)=>{
-						item.edit=false;
-					});
-					this.lists = _T;
-					this.lists[i].edit = !this.lists[i].edit;
-					this.nowedit = this.lists[i].title;	
+				edit(item){
+					this.nowitem = item;
+					this.nowedit = item.title;
 				},
-				finish(i){
-					this.lists[i].edit=false;
+				finish(item){
+					this.nowitem ='';
 				},
-				cancel(i){
-					this.lists[i].title = this.nowedit;
-					this.finish(i);
+				cancel(item){
+					item.title = this.nowedit;
+					this.nowitem = '';
 					this.nowedit = '';
+				},
+				read(item){
+					item.status=1;
+				}
+			},
+			computed:{
+				yes:function(){
+					return this.lists.filter((item)=>{
+						return item.status==1
+					}).length;
 				}
 			},
 			directives:{

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<drop :fack="message" @show="show(1)"></drop>
+	</div>
+	<div id="app2">
+		<drop :fack="message" @show="show(2)"></drop>
+	</div>
+	<script>
+		Vue.component("drop",{
+			props:['fack'],
+			template:'<div @click="doit">{{fack}}</div>',
+			methods:{
+				doit(){
+					this.$emit('show');
+				}
+			}
+		});
+		var app  = new Vue({
+			el:'#app',
+			data:{
+				message:'fack you ,hah,zhu '
+			},
+			methods:{
+				show(msg){
+					this.message=msg;
+					alert(this.message);
+				}
+			}
+		});
+		var app2  = new Vue({
+			el:'#app2',
+			data:{
+				message:'fack you ,hah,zhu '
+			},
+			methods:{
+				show(msg){
+					this.message=msg;
+					alert(this.message);
+				}
+			}
+		});
+	</script>
+</body>
+</html>
