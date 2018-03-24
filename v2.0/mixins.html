@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+<script src="lib/vue.js" type="text/javascript"></script>
+<script src="lib/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="app">
+		{{num}}<hr/>
+		<p>
+			<button @click="add">press it</button>
+		</p>
+	</div>
+	<script>
+		var mixins = {
+			updated(){
+				console.log('data has changed:'+this.num);
+			}
+		};
+		Vue.mixin({
+			updated(){
+				console.log('我是全局的混入:'+this.num);
+			}
+		});
+		var app = new Vue({
+			el:'#app',
+			data:{
+				num:1
+			},
+			methods:{
+				add:function(){
+					this.num++;
+				}
+			},
+			updated(){
+				console.log('我是局部的混入:'+this.num);
+			},
+			mixins:[mixins]
+		})
+	</script>
+</body>
+</html>

@@ -26,7 +26,7 @@
 					this.blshow  = this.input!='';
 				},
 				setitem:function(item){
-					console.log(item);
+					
 				}
 			},
 			data:function(){
@@ -39,7 +39,7 @@
 			`
 			<div class="seldiv">
 			<input type="text" v-model="input" class="putcss" @keyup="search"/>
-			<sel-list :list="list" :blshow="blshow" :input="input" :sitem="setitem('1')"></sel-list>
+			<sel-list :list="list" :blshow="blshow" :input="input" :sitem="setitem()"></sel-list>
 			</div>
 			`
 		};
